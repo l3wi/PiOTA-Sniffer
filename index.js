@@ -25,7 +25,7 @@ const sendData = () => {
     count = length
     if (!output[0]) return
     // Re format and remove duplicates
-    var thing = output
+    var thing = output[0]
       .map(item => {
         return { maker: item[2], mac: item[1], time: item[0], rssi: item[4] }
       })
@@ -35,7 +35,7 @@ const sendData = () => {
       )
     console.log(thing)
     // Construc da msg
-    var trytes = Mam.iota.utils.toTrytes(JSON.stringify(thing[1]))
+    var trytes = Mam.iota.utils.toTrytes(JSON.stringify(thing))
     var message = Mam.create(state, trytes)
     state = message.state
     console.log(message.root)
