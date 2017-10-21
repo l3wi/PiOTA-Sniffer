@@ -9,7 +9,6 @@ let length
 const read = () => {
   try {
     var dump = fs.readFileSync(__dirname + "/dump")
-    console.log(dump.toString())
     return dump.toString()
   } catch (e) {
     console.log("No data")
@@ -42,7 +41,7 @@ const sendData = () => {
     console.log(await Mam.decode(message.payload, null, message.root))
     await Mam.attach(message.payload, message.root)
   })
-  setTimeout(() => sendData(), 15000)
+  setTimeout(() => sendData(), 30000)
 }
 
 sendData()
