@@ -18,6 +18,13 @@ const read = () => {
 const sendData = () => {
   parse(read(), { delimiter: "\t" }, async (err, output) => {
     if (!output) return
+
+    // Slicing
+    length = output.length
+    output = output.slice(count)
+    count = length
+    if (!output[0]) return
+    // Re format and remove duplicates
     var thing = output
       .map(item => {
         return { maker: item[2], mac: item[1], time: item[0], rssi: item[4] }
@@ -26,11 +33,7 @@ const sendData = () => {
         (thing, index, self) =>
           self.findIndex(t => t.mac === thing.mac) === index
       )
-    // Slicing
-    length = thing.length
-    thing = thing.slice(count)
-    count = length
-    if (!thing[0]) return
+    console.log(thing)
     // Construc da msg
     var trytes = Mam.iota.utils.toTrytes(JSON.stringify(thing[1]))
     var message = Mam.create(state, trytes)
