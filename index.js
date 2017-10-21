@@ -1,7 +1,7 @@
 var parse = require("csv-parse")
 var fs = require("fs")
-// var Mam = require("./mam.client.js")
-// var state = Mam.init()
+var Mam = require("./mam.client.js")
+var state = Mam.init()
 
 let count = 0
 let length
@@ -28,6 +28,7 @@ const sendData = () => {
       )
     length = thing.length - 1
     thing = thing.slice(count)
+    count = length
     console.log(thing)
     var trytes = Mam.iota.utils.toTrytes(JSON.stringify(thing[1]))
     var message = Mam.create(state, trytes)
