@@ -26,19 +26,21 @@ const sendData = () => {
         (thing, index, self) =>
           self.findIndex(t => t.mac === thing.mac) === index
       )
-    length = thing.length - 1
+    length = thing.length
     thing = thing.slice(count)
     count = length
+    console.log(count)
+    console.log(length)
     console.log(thing)
+    if (thing === []) return
     var trytes = Mam.iota.utils.toTrytes(JSON.stringify(thing[1]))
     var message = Mam.create(state, trytes)
     state = message.state
     console.log(message.root)
     console.log(await Mam.decode(message.payload, null, message.root))
-    output = ""
     await Mam.attach(message.payload, message.root)
   })
-  setTimeout(() => sendData(), 3000)
+  setTimeout(() => sendData(), 10000)
 }
 
 sendData()
