@@ -6,7 +6,7 @@ require("should")
 
 var options = {
   mode: "text",
-  pythonPath: "/usr/lib/python",
+  pythonPath: "python",
   pythonOptions: ["-u -i wlan1mon -t unix -f -s -r -l"],
   scriptPath: "~/probemon/"
 }
