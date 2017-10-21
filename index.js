@@ -18,7 +18,6 @@ const read = () => {
 
 const sendData = () => {
   parse(read(), { delimiter: "\t" }, async (err, output) => {
-    console.log(output)
     if (!output) return
     // Slicing
     length = output.length
@@ -33,8 +32,8 @@ const sendData = () => {
         (thing, index, self) =>
           self.findIndex(t => t.mac === thing.mac) === index
       )
-    console.log(thing)
     if (thing.length === 0) return
+    console.log(thing)
     // Construc da msg
     var trytes = Mam.iota.utils.toTrytes(JSON.stringify(thing))
     var message = Mam.create(state, trytes)
@@ -43,7 +42,7 @@ const sendData = () => {
     console.log(await Mam.decode(message.payload, null, message.root))
     await Mam.attach(message.payload, message.root)
   })
-  setTimeout(() => sendData(), 5000)
+  setTimeout(() => sendData(), 15000)
 }
 
 sendData()
