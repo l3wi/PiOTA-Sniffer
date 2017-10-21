@@ -26,13 +26,12 @@ const sendData = () => {
         (thing, index, self) =>
           self.findIndex(t => t.mac === thing.mac) === index
       )
+    // Slicing
     length = thing.length
     thing = thing.slice(count)
     count = length
-    console.log(count)
-    console.log(length)
-    console.log(thing)
-    if (thing === []) return
+    if (!thing[0]) return
+    // Construc da msg
     var trytes = Mam.iota.utils.toTrytes(JSON.stringify(thing[1]))
     var message = Mam.create(state, trytes)
     state = message.state
