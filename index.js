@@ -7,9 +7,8 @@ require("should")
 var options = {
   mode: "text",
   pythonPath: "/usr/lib/python",
-  pythonOptions: ["-u"],
-  scriptPath: "~/probemon/",
-  args: ["-i wlan1mon", "-t unix", "-f", "-s", "-r", "-l"]
+  pythonOptions: ["-u -i wlan1mon -t unix -f -s -r -l"],
+  scriptPath: "~/probemon/"
 }
 var pyshell = new PythonShell("probemon.py", options)
 
