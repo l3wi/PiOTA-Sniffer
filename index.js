@@ -1,7 +1,7 @@
 var parse = require("csv-parse")
 var fs = require("fs")
 var PythonShell = require("python-shell")
-var Mam = require("./mam.client.js")
+// var Mam = require("./mam.client.js")
 require("should")
 
 var options = {
@@ -21,30 +21,30 @@ pyshell.on("message", function(message) {
   output = output + message
 })
 
-var state = Mam.init()
+// var state = Mam.init()
 
-var contents = fs.readFileSync(__dirname + "/WonderHowTo").toString()
-const sendData = () => {
-  parse(contents, { delimiter: "\t" }, async (err, output) => {
-    if (!output) return
-    var thing = output
-      .map(item => {
-        return { maker: item[2], mac: item[1], time: item[0], rssi: item[4] }
-      })
-      .filter(
-        (thing, index, self) =>
-          self.findIndex(t => t.mac === thing.mac) === index
-      )
-    console.log(thing)
-    var trytes = Mam.iota.utils.toTrytes(JSON.stringify(thing))
-    var message = Mam.create(state, trytes)
-    state = message.state
-    console.log(message.root)
-    console.log(await Mam.decode(message.payload, null, message.root))
-    output = ""
-    await Mam.attach(message.payload, message.root)
-  })
-  setTimeout(() => sendData(), 30000)
-}
+// var contents = fs.readFileSync(__dirname + "/WonderHowTo").toString()
+// const sendData = () => {
+//   parse(contents, { delimiter: "\t" }, async (err, output) => {
+//     if (!output) return
+//     var thing = output
+//       .map(item => {
+//         return { maker: item[2], mac: item[1], time: item[0], rssi: item[4] }
+//       })
+//       .filter(
+//         (thing, index, self) =>
+//           self.findIndex(t => t.mac === thing.mac) === index
+//       )
+//     console.log(thing)
+//     var trytes = Mam.iota.utils.toTrytes(JSON.stringify(thing))
+//     var message = Mam.create(state, trytes)
+//     state = message.state
+//     console.log(message.root)
+//     console.log(await Mam.decode(message.payload, null, message.root))
+//     output = ""
+//     await Mam.attach(message.payload, message.root)
+//   })
+//   setTimeout(() => sendData(), 30000)
+// }
 
-sendData()
+// sendData()
