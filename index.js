@@ -9,6 +9,7 @@ let length
 const read = () => {
   try {
     var dump = fs.readFileSync(__dirname + "/dump")
+    console.log(dump.toString())
     return dump.toString()
   } catch (e) {
     console.log("No data")
@@ -17,15 +18,14 @@ const read = () => {
 
 const sendData = () => {
   parse(read(), { delimiter: "\t" }, async (err, output) => {
+    console.log(output)
     if (!output) return
-
     // Slicing
     length = output.length
     output = output.slice(count)
     count = length
-    if (!output[0]) return
     // Re format and remove duplicates
-    var thing = output[0]
+    var thing = output
       .map(item => {
         return { maker: item[2], mac: item[1], time: item[0], rssi: item[4] }
       })
@@ -34,6 +34,7 @@ const sendData = () => {
           self.findIndex(t => t.mac === thing.mac) === index
       )
     console.log(thing)
+    if (thing.length === 0) return
     // Construc da msg
     var trytes = Mam.iota.utils.toTrytes(JSON.stringify(thing))
     var message = Mam.create(state, trytes)
@@ -42,7 +43,7 @@ const sendData = () => {
     console.log(await Mam.decode(message.payload, null, message.root))
     await Mam.attach(message.payload, message.root)
   })
-  setTimeout(() => sendData(), 10000)
+  setTimeout(() => sendData(), 5000)
 }
 
 sendData()
