@@ -7647,7 +7647,7 @@ const pify = __webpack_require__(85);
 /// MAM Interface
 var MAM = __webpack_require__(86);
 // Setup Provider
-let iota = new IOTA({ provider: `http://p101.iotaledger.net:14700` });
+let iota = new IOTA({ provider: `http://p103.iotaledger.net:14700` });
 
 const init = (seed = keyGen(81), security = 2) => {
   // Setup Personal Channel
@@ -7721,7 +7721,7 @@ const fetch = async address => {
   let messageCount = 0;
 
   while (!consumedAll) {
-    console.log("Looking up data at: ", nextRoot);
+    console.log('Looking up data at: ', nextRoot);
     let hashes = await pify(iota.api.findTransactions.bind(iota.api))({
       addresses: [nextRoot]
     });
@@ -7742,12 +7742,12 @@ const fetch = async address => {
         messages.push(unmasked.payload);
         nextRoot = unmasked.next_root;
       } catch (e) {
-        console.error("failed to parse: ", e);
+        console.error('failed to parse: ', e);
       }
     }
   }
 
-  console.log("Total transaction count: ", transactionCount);
+  console.log('Total transaction count: ', transactionCount);
 
   return {
     nextRoot: nextRoot,
@@ -7758,7 +7758,7 @@ const fetch = async address => {
 const listen = (channel, callback) => {
   var root = channel.root;
   return setTimeout(async () => {
-    console.log("Fetching");
+    console.log('Fetching');
     var resp = await fetch(root);
     root = resp.nextRoot;
     callback(resp.messages);
@@ -7784,7 +7784,7 @@ const txHashesToMessages = async hashes => {
     if (bundles[bundle].length == maxIdx + 1) {
       let l = bundles[bundle];
       delete bundles[bundle];
-      return l.sort((a, b) => b[0] < a[0]).reduce((acc, n) => acc + n[1], "");
+      return l.sort((a, b) => b[0] < a[0]).reduce((acc, n) => acc + n[1], '');
     }
   };
 
@@ -7801,23 +7801,23 @@ const attach = async (trytes, root) => {
   // if (isClient) curl.overrideAttachToTangle(iota)
   try {
     let objs = await pify(iota.api.sendTransfer.bind(iota.api))(keyGen(81), 5, 9, transfers);
-    console.log("Message attached");
+    console.log('Message attached');
     return objs;
   } catch (e) {
-    return console.error("failed to attach message:", "\n", e);
+    return console.error('failed to attach message:', '\n', e);
   }
 };
 
-const isClient = typeof window !== "undefined" && window.document && window.document.createElement;
+const isClient = typeof window !== 'undefined' && window.document && window.document.createElement;
 
 const keyGen = length => {
-  var charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ9";
+  var charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ9';
   var values = crypto.randomBytes(length);
   var result = new Array(length);
   for (var i = 0; i < length; i++) {
     result[i] = charset[values[i] % charset.length];
   }
-  return result.join("");
+  return result.join('');
 };
 
 module.exports = {
